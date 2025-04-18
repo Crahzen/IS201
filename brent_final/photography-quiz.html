@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Photography Quiz</title>
+    <link href="photography-quiz-styles.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .navigation {
+        text-align: center;
+        margin: 20px 0;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .nav-link {
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        border: 2px solid #3498db;
+        color: #3498db;
+        background-color: white;
+        display: inline-block;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-link:hover {
+        background-color: #3498db;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+      }
+
+      .sticky-nav {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .sticky-nav {
+          display: none;
+        }
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+
+      h1 {
+        color: #2c3e50;
+        text-align: center;
+      }
+
+      .question {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        border: 1px solid #eee;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .option {
+        margin: 10px 0;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .option:hover {
+        background-color: #f0f0f0;
+      }
+
+      .option.selected {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+      }
+
+      .option.correct {
+        background-color: #2ecc71;
+        color: white;
+        border-color: #2ecc71;
+      }
+
+      .option.incorrect {
+        background-color: #e74c3c;
+        color: white;
+        border-color: #e74c3c;
+      }
+
+      .controls {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+      }
+
+      button:disabled {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+      }
+
+      .result {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .score {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 24px;
+        color: #2c3e50;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sticky-nav">
+      <a href="index.html" class="nav-link">Back to Home</a>
+      <a href="scratch.html" class="nav-link">Back to Photography Page</a>
+    </div>
+
+    <div class="container">
+      <h1>Photography Quiz</h1>
+      <div id="quiz-container"></div>
+      <div class="controls">
+        <button id="check-answers">Check Answers</button>
+        <button id="reset-quiz" style="display: none">Try New Questions</button>
+      </div>
+      <div class="result" id="result" style="display: none"></div>
+      <div class="score" id="score" style="display: none"></div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "What is the 'rule of thirds' in photography?",
+          options: [
+            "A technique for dividing the frame into nine equal parts",
+            "A method for adjusting camera settings",
+            "A type of lens filter",
+            "A post-processing technique",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          question: "What does ISO measure in photography?",
+          options: [
+            "The camera's sensitivity to light",
+            "The size of the image sensor",
+            "The quality of the lens",
+            "The speed of the autofocus",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          question: "What is the purpose of a polarizing filter?",
+          options: [
+            "To reduce reflections and enhance colors",
+            "To increase the camera's ISO",
+            "To zoom in on distant subjects",
+            "To create a fisheye effect",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          question: "What is 'bokeh' in photography?",
+          options: [
+            "The aesthetic quality of the out-of-focus areas",
+            "A type of camera shake",
+            "A lens defect",
+            "A post-processing effect",
+          ],
+          correctAnswer: 0,
+        },
+        {
+          question: "What does 'shutter speed' control?",
+          options: [
+            "How long the camera's sensor is exposed to light",
+            "The size of the aperture",
+            "The camera's white balance",
+            "The focus distance",
+          ],
+          correctAnswer: 0,
+        },
+      ];
+
+      let currentQuestions = [];
+      let userAnswers = [];
+
+      function getRandomQuestions() {
+        const shuffled = [...questions].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 3);
+      }
+
+      function displayQuestions() {
+        currentQuestions = getRandomQuestions();
+        userAnswers = [];
+        const quizContainer = document.getElementById("quiz-container");
+        quizContainer.innerHTML = "";
+
+        currentQuestions.forEach((q, index) => {
+          const questionDiv = document.createElement("div");
+          questionDiv.className = "question";
+          questionDiv.innerHTML = `
+            <h3>${index + 1}. ${q.question}</h3>
+            <div class="options">
+              ${q.options
+                .map(
+                  (option, i) => `
+                <label>
+                  <input type="radio" name="q${index}" value="${i}">
+                  ${option}
+                </label>
+              `
+                )
+                .join("")}
+            </div>
+          `;
+          quizContainer.appendChild(questionDiv);
+        });
+      }
+
+      function checkAnswers() {
+        const resultDiv = document.getElementById("result");
+        const scoreDiv = document.getElementById("score");
+        const checkButton = document.getElementById("check-answers");
+        const resetButton = document.getElementById("reset-quiz");
+
+        userAnswers = currentQuestions.map((_, index) => {
+          const selectedOption = document.querySelector(
+            `input[name="q${index}"]:checked`
+          );
+          return selectedOption ? parseInt(selectedOption.value) : -1;
+        });
+
+        const correctAnswers = currentQuestions.map((q) => q.correctAnswer);
+        const isCorrect = userAnswers.map(
+          (answer, index) => answer === correctAnswers[index]
+        );
+
+        const correctCount = isCorrect.filter(Boolean).length;
+        const totalQuestions = currentQuestions.length;
+
+        resultDiv.innerHTML = currentQuestions
+          .map(
+            (q, index) => `
+            <div class="question-result ${
+              isCorrect[index] ? "correct" : "incorrect"
+            }">
+              <p><strong>Question ${index + 1}:</strong> ${q.question}</p>
+              <p>Your answer: ${
+                userAnswers[index] === -1
+                  ? "Not answered"
+                  : q.options[userAnswers[index]]
+              }</p>
+              <p>Correct answer: ${q.options[q.correctAnswer]}</p>
+            </div>
+          `
+          )
+          .join("");
+
+        scoreDiv.innerHTML = `
+          <h3>Your Score: ${correctCount}/${totalQuestions}</h3>
+          <p>${getScoreMessage(correctCount, totalQuestions)}</p>
+        `;
+
+        resultDiv.style.display = "block";
+        scoreDiv.style.display = "block";
+        checkButton.style.display = "none";
+        resetButton.style.display = "block";
+      }
+
+      function getScoreMessage(correct, total) {
+        const percentage = (correct / total) * 100;
+        if (percentage === 100) return "Perfect! You're a photography expert!";
+        if (percentage >= 80)
+          return "Great job! You know your photography well!";
+        if (percentage >= 60)
+          return "Good effort! Keep learning about photography!";
+        return "Keep practicing! Photography takes time to master!";
+      }
+
+      document
+        .getElementById("check-answers")
+        .addEventListener("click", checkAnswers);
+      document
+        .getElementById("reset-quiz")
+        .addEventListener("click", displayQuestions);
+
+      displayQuestions();
+    </script>
+  </body>
+</html>
