@@ -6,6 +6,10 @@
     <title>Scratch Page - My Hobby</title>
     <link href="scratch-styles.css" rel="stylesheet" />
     <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
       .navigation {
         text-align: center;
         margin: 20px 0;
@@ -48,8 +52,52 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
 
+      .quick-nav {
+        position: fixed;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+      }
+
+      .quick-nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .quick-nav a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 4px;
+        display: block;
+      }
+
+      .quick-nav a:hover {
+        background-color: #3498db;
+        color: white;
+        transform: translateX(-5px);
+      }
+
+      .section-anchor {
+        scroll-margin-top: 100px;
+      }
+
       @media (max-width: 768px) {
         .sticky-nav {
+          display: none;
+        }
+        .quick-nav {
           display: none;
         }
       }
@@ -64,7 +112,17 @@
     <div class="container">
       <h1>My Hobby: Photography</h1>
 
-      <div class="content-section">
+      <nav class="quick-nav">
+        <ul>
+          <li><a href="#why-love">Why I Love Photography</a></li>
+          <li><a href="#beautiful-shot">A Beautiful Shot</a></li>
+          <li><a href="#basics">Learn Photography Basics</a></li>
+          <li><a href="#statistics">Photography Statistics</a></li>
+          <li><a href="#quiz">Try My Photography Quiz</a></li>
+        </ul>
+      </nav>
+
+      <div id="why-love" class="content-section section-anchor">
         <h2>Why I Love Photography</h2>
         <p>
           Photography allows me to capture moments and tell stories through
@@ -91,7 +149,7 @@
         </ol>
       </div>
 
-      <div class="content-section">
+      <div id="beautiful-shot" class="content-section section-anchor">
         <h2>A Beautiful Shot</h2>
         <img
           src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"
@@ -104,7 +162,7 @@
         </p>
       </div>
 
-      <div class="content-section">
+      <div id="basics" class="content-section section-anchor">
         <h2>Learn Photography Basics</h2>
         <div class="video-container">
           <iframe
@@ -119,7 +177,7 @@
         </div>
       </div>
 
-      <div class="content-section">
+      <div id="statistics" class="content-section section-anchor">
         <h2>Photography Statistics</h2>
         <div class="tableau-container">
           <div
@@ -176,7 +234,7 @@
         </div>
       </div>
 
-      <div class="content-section">
+      <div id="quiz" class="content-section section-anchor">
         <h2>Try My Photography Quiz</h2>
         <p>
           Test your photography knowledge with my interactive quiz! You'll be
